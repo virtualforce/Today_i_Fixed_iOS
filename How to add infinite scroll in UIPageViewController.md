@@ -19,7 +19,7 @@ Code snippets for all of the above methods are provided in below section.
 
 
 # Solution
-Here is the minor tweaks you need to do in your viewController to add infinite scrolling.
+Here are the minor tweaks you need to do in your viewController to add infinite scrolling.
 In below code snippets contentViewController --> instance of your pageView (View which will containt content of one swipe-able page)
 
 # PageViewController
