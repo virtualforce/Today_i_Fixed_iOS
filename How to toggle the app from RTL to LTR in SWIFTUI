@@ -1,0 +1,46 @@
+Problem
+How to implement LTR to RTL in SwiftUI
+
+How you fix it
+In SwiftUI the process of adding localization is similar to the way we do in UIKit but the challenge appears when when we need to switch the app 
+from LTR to RTL since Arabic is written from RTL unlike other languages. So what we do is that we maintain an app state which will help us in toggling
+the UI.   
+
+Solution
+1. Create an AppSate singleton class which will conform ObservableObject and will have a boolean check which will be used for toggling.
+
+  class AppState: ObservableObject {
+      static let shared = AppState()
+
+      @Published var isRTL = false
+  }
+
+2. In our @main class we will set environment variable for the starting point of our app.
+
+@main
+struct DemoApp: App {
+    private var language = LocalizationService.shared.language
+    @ObservedObject var appState = AppState.shared
+    
+    init() {
+        appState.isRTL = language == .english_us ? false : true
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            Login().id(appState.isRTL)
+                .environment(\.layoutDirection, appState.isRTL ? .rightToLeft : .leftToRight)
+        }
+    }
+}
+
+3. In our Login class we will start place the business logic for toggling between RTL and LTR. Within this view we will place a button and switch 
+the boolean "isRTL" AppState.
+
+  Button("Toggle Language") {
+      if AppState.shared.isRTL {
+          AppState.shared.isRTL = false
+      } else {
+          AppState.shared.isRTL = true
+      }
+  }
